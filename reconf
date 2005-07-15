@@ -17,5 +17,6 @@ autoconf
 echo "- autoheader."
 autoheader
 echo "- automake."
+cp README.in README
 automake -a
 exit

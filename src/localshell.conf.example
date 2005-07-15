@@ -1,0 +1,68 @@
+# localshell.conf
+# $Header: /code/convert/cvsroot/infrastructure/localshellc/src/Attic/localshell.conf.example,v 1.1 2005/07/15 02:03:38 robbat2 Exp $
+# This file describes the behavior of localshell as a complete real-world
+# example.
+
+# comments start with a '#' in the first line only
+# blank lines are ignored.  every other line is parsed exactly as is,
+# whitespace IS significent the format of this file resembles shell scripts,
+# but NO special interpreation is done
+# so the format is: 
+# VARNAME="VARCONTENTS"
+# and the '"' are stripped.
+# each of these variables has a structure as such
+# [USER]:[GROUP],VALUE
+# where user and group can be either a numeric UID/GID or a name to be resolved
+# via NSS. For the purposes of matching, the GID is checked against both the
+# primary group of the current user, and the additional groups of the current
+# user.
+
+# every specific entry needs stuff in 3 variables
+# shells, priorities, allowed_cmds
+# the shells variable has two special values: 'LOCALSHELL' and 'DEFAULTSHELL'.
+# if 'LOCALSHELL' is specified, the user's preferred_shell_file is checked to
+# see what shell they would want to use for being let in.
+# if 'DEFAULTSHELL' is specified, this shell is enforced on the user.
+shells=":infrastructure,LOCALSHELL"
+# priorities takes a signed 32-bit integer
+# higher priorities take precedence
+priorities=":infrastructure,10000"
+# allowed_cmds takes a regular expression to see what command arguments are allowed.
+allowed_cmds=":infrastructure,"
+
+# SVN and CVS require that the user has a real shell
+# but we still want to limit what commands they can run.
+# so this is how you go about it.
+# note that '^svn' is not safe as they could find some other command starting with 'svn' to abuse.
+shells=":cvs,/bin/bash"
+priorities=":cvs,5000"
+allowed_cmds=":cvs,^cvs server$|^svn\>|^svnserve\>"
+
+# if you wanted to allow everybody in
+# you could use this
+#shells=",LOCALSHELL"
+#priorities=",0"
+#allowed_cmds=","
+
+# this is the default entry
+# they are implicitly included if deleted here.
+# it enforces that for any case that doesn't match above (lowest priority)
+# The user gets the default shell, and is allowed to specify arguments.
+shells=":,DEFAULTSHELL"
+priorities=":,-2147483647"
+allowed_cmds=":,"
+
+# these are defaults for the system
+# they are implicitly included if deleted here.
+
+# default_preferred_shell is what you get if you don't have a
+# preferred_shell_file, and your shells line says 'LOCALSHELL'
+# where to look for the shell that a user would prefer.
+preferred_shell_file=":,~/.localshellrc"
+# if the user hasn't specified a prefered shell, 
+default_preferred_shell=":,/bin/bash"
+# enforce /bin/false as a safe shell to block users.
+default_shell=":,/bin/false"
+
+# sure, this is cheating, but it looks good.
+# vim: set ft=sh:

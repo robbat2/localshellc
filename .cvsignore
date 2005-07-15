@@ -13,3 +13,6 @@ depcomp
 install-sh
 missing
 README
+stamp-h1
+config.h
+config.cache

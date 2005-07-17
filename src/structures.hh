@@ -1,4 +1,4 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/structures.hh,v 1.1 2005/07/15 02:03:38 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/structures.hh,v 1.2 2005/07/17 19:57:56 robbat2 Exp $ */
 #ifndef _STRUCTURES_HH_
 #define _STRUCTURES_HH_
 
@@ -9,6 +9,11 @@
 //#include <sys/types.h> // for uid_t, gid_t
 //
 #include <limits.h> // INT_MAX
+
+#include <map>
+#include <vector>
+using namespace std;
+
 #include "../config.h"
 
 const uid_t UID_INVALID = INT_MAX;
@@ -31,6 +36,13 @@ struct cfg_list {
 	// these are used during loading only
 	uid_t uid; 
 	gid_t gid; 
+};
+
+struct configuration {
+	map<int,*cfg_entry> cfg_entries;
+	vector<*cfg_list> preferred_shell_files;
+	vector<*cfg_list> preferred_shells;
+	vector<*cfg_list> default_shells;
 };
 
 #endif //_STRUCTURES_HH_

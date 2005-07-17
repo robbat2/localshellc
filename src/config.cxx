@@ -1,8 +1,9 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/config.cxx,v 1.1 2005/07/15 02:03:38 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/config.cxx,v 1.2 2005/07/17 19:57:56 robbat2 Exp $ */
 
 #include <stdio.h>
 #include <errno.h>
 #include "structures.hh"
+#include "config.hh"
 
 #include <iostream>
 #include <fstream>
@@ -10,18 +11,18 @@
 #include <vector>
 using namespace std;
 
-int load_config( const char *cfg_filename, map<int,cfg_entry> &cfg_entries, vector<cfg_list> &preferred_shell_files, vector<cfg_list> &preferred_shells, vector<cfg_list> &default_shells) {
+int load_config( const char *cfg_filename, configuration &conf) {
 	fstream fs(cfg_filename, ios_base::in);
 	if(!fs.is_open()) {
-		cerr << PACKAGE << ": error opening config file" << endl;
+		fprintf(stderr,"%s: error opening config file\n",PACKAGE);
 		return ENOENT;
 	}
-	int ret = parse_config(fs,cfg_entries,preferred_shell_files,preferred_shells,default_shells);
+	int ret = parse_config(fs,conf);
 	fs.close(); // very important for a shell-spawner
 	return ret;
 }
 
-int parse_config(fstream &fs, map<int,cfg_entry> &cfg_entries, vector<cfg_list> &preferred_shell_files, vector<cfg_list> &preferred_shells, vector<cfg_list> &default_shells) {
+int parse_config(fstream &fs, configuration &conf) {
 	const int BUFFERSIZE = 2048; // compiles away
 	int len = BUFFERSIZE;
 	while(fs.good()) {
@@ -49,23 +50,13 @@ int parse_config(fstream &fs, map<int,cfg_entry> &cfg_entries, vector<cfg_list> 
 		char* trailing_quote_pos = strstr(comma_pos+1,"\"");
 		if(NULL == trailing_quote_pos) continue;
 
-		char argname[BUFFERSIZE];
-		char arguid[BUFFERSIZE];
-		char arggid[BUFFERSIZE];
-		char argvalue[BUFFERSIZE];
-
-		memset(argname,'\0',len);
-		memset(arguid,'\0',len);
-		memset(arggid,'\0',len);
-		memset(argvalue,'\0',len);
-
-		// copy the argument
-		strncpy(argname,line,equal_pos - line);
-		strncpy(arguid,equal_pos+2,colon_pos - (equal_pos + 2));
-		strncpy(arggid,colon_pos+1,comma_pos - (colon_pos + 1));
-		strncpy(argvalue,comma_pos+1,trailing_quote_pos - (comma_pos + 1));
-
-		printf("Name:'%25s' UID:'%25s' GID:'%25s' Value:'%25s'\n",argname,arguid,arggid,argvalue);
+		char *argname = line;
+		char *arguid = equal_pos+2;
+		char *arggid = colon_pos+1;
+		char *argvalue = comma_pos+1;
+		// this is an evil trick, so we don't need any seperate buffers or copying
+		// basically the single buffer contains everything...
+		equal_pos[0] = equal_pos[1] = colon_pos[0] = comma_pos[0] = trailing_quote_pos[0] = '\0';
 
 		uid_t uid;
 		gid_t gid;
@@ -75,25 +66,28 @@ int parse_config(fstream &fs, map<int,cfg_entry> &cfg_entries, vector<cfg_list> 
 		if(UID_INVALID == uid) return EINVAL;
 		gid = resolve_gid(arggid);
 		if(GID_INVALID == gid) return EINVAL;
-
-		// uid/gid done
+	
+		printf("Name:'%s' UID:%d GID:%d Value:'%s'\n",argname,uid,gid,argvalue);
+		if(match_user(uid,gid)) {
+			parse_config_argument(argname,uid,gid,argvalue,conf);
+		}
 	}
 }
 
 uid_t resolve_uid(char *user) {
-	uid_t = UID_INVALID;
+	uid_t uid = UID_INVALID;
 	if(0 == strlen(user)) {
 		uid = UID_ANY;
 	} else {
-		int c = scanf(user,"%d",&uid);
+		int c = sscanf(user,"%d",&uid);
 		// didn't find a numeric uid, assume string and do lookup
+		passwd *pwd;
 		if(1 != c) {
-			passwd *pwd;
 			errno = 0;
 			pwd = getpwnam(user);
 			// does not exist, bypass
 			if(NULL == pwd) {
-				cerr << PACKAGE << ": bad user:'" << group << "'" << endl;
+				fprintf(stderr,"%s: bad user:'%s'\n",PACKAGE,user);
 				if(0 == errno) errno = EINVAL;
 			} else {
 				uid = pwd->pw_uid;
@@ -103,20 +97,20 @@ uid_t resolve_uid(char *user) {
 	return uid;
 }
 
-gid_t resolve_gid(char *group) {
-	gid_t = GID_INVALID;
-	if(0 == strlen(group)) {
+gid_t resolve_gid(char *groupname) {
+	gid_t gid = GID_INVALID;
+	if(0 == strlen(groupname)) {
 		gid = GID_ANY;
 	} else {
-		int c = scanf(group,"%d",&gid);
+		int c = sscanf(groupname,"%d",&gid);
 		// didn't find a numeric gid, assume string and do lookup
+		group *grp;
 		if(1 != c) {
-			group *grp;
 			errno = 0;
-			grp = getgrnam(group);
+			grp = getgrnam(groupname);
 			// does not exist, bypass
 			if(NULL == grp) {
-				cerr << PACKAGE << ": bad group:'" << group << "'" << endl;
+				fprintf(stderr,"%s: bad group:'%s'\n",PACKAGE,groupname);
 				if(0 == errno) errno = EINVAL;
 			} else {
 				gid = grp->gr_gid;
@@ -124,4 +118,75 @@ gid_t resolve_gid(char *group) {
 		}
 	}
 	return gid;
+}
+
+int parse_config_argument(char *argname, uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+	int ret = EINVAL;
+	switch(hash_string(argname)) {
+		case 80466: 
+			/* entry */ 
+			ret = parse_config_argument__entry(uid,gid,argvalue,conf);
+			break;
+		case 1879921805:
+			/* preferred_shell_file */ 
+			ret = parse_config_argument__preferred_shell_file(uid,gid,argvalue,conf);
+			break;
+		case -1144786314:
+			/* default_preferred_shell */ 
+			ret = parse_config_argument__default_preferred_shell(uid,gid,argvalue,conf);
+			break;
+		case 522816976:
+			/* default_shell */ 
+			ret = parse_config_argument__default_shell(uid,gid,argvalue,conf);
+			break;
+		default:
+			/* all other cases */
+			fprintf(stderr,"%s: bad configuration argument:'%s'\n",PACKAGE,argname);
+			break;
+	}
+	return ret;
+}
+
+bool match_user(uid_t uid, gid_t gid) {
+	if(uid == getuid() || gid == getgid()) {
+		return true;
+	} else {
+		// now check supplementary groups
+		group *grp;
+		grp = getgrgid(gid);
+		for( char* username = grp->gr_mem ; grp->gr_mem += sizeof(char *) ; grp->gr_mem != NULL ) {
+			uid_t uid2 = resolve_uid(username);
+			if(uid2 == uid) return true;
+		}
+	}
+}
+
+int parse_config_argument__entry(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+	cfg_entry *entry = new cfg_entry;
+	// PRIORITY,SHELL,ALLOWED
+	char* priority = argvalue;
+
+	char* shell = strstr(argvalue,",");
+	if(NULL == shell) { /* error */ }
+	shell[0] = '\0'; shell++;
+
+	char* allowed_cmds = strstr(shell,",");
+	if(NULL == allowed_cmds) { /* error */ }
+	allowed_cmds[0] = '\0'; allowed_cmds++;
+
+	entry->priority = priority;
+	entry->shell = strdup(shell);
+	entry->allowed_cmds = strdup(allowed_cmds);
+	entry->uid = uid;
+	entry->gid = gid;
+	conf.cfg_entries[priority] = entry;
+}
+int parse_config_argument__preferred_shell_file(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+	conf.preferred_shell_files.push_bash(create_cfg_list(argvalue,uid,gid));
+}
+int parse_config_argument__default_preferred_shell(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+	conf.preferred_shells.push_bash(create_cfg_list(argvalue,uid,gid));
+}
+int parse_config_argument__default_shell(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+	conf.default_shells.push_bash(create_cfg_list(argvalue,uid,gid));
 }

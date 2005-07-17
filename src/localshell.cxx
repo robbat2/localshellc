@@ -1,19 +1,19 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/localshell.cxx,v 1.1 2005/07/15 02:03:38 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/localshell.cxx,v 1.2 2005/07/17 19:57:56 robbat2 Exp $ */
 
 #include <stdio.h>
 #include "structures.hh"
 #include "config.hh"
+#include "common.hh"
 
 #include <map>
 #include <vector>
 using namespace std;
 
 int main(int argc, char** argv) {
-	map<int,cfg_entry> cfg_entries;
-	vector<cfg_list> preferred_shell_files;
-	vector<cfg_list> preferred_shells;
-	vector<cfg_list> default_shells;
-
-	parse_config(argv[1],cfg_entries,preferred_shell_files,preferred_shells,default_shells);
+	if(argc > 0) {
+		configuration conf;
+		load_config(argv[1],conf);
+		printf("%d\n",hash_string(argv[1]));
+	}
 	return 0; /* NOT-REACHED */
 }

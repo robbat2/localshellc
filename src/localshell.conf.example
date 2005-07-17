@@ -1,5 +1,5 @@
 # localshell.conf
-# $Header: /code/convert/cvsroot/infrastructure/localshellc/src/Attic/localshell.conf.example,v 1.1 2005/07/15 02:03:38 robbat2 Exp $
+# $Header: /code/convert/cvsroot/infrastructure/localshellc/src/Attic/localshell.conf.example,v 1.2 2005/07/17 19:57:56 robbat2 Exp $
 # This file describes the behavior of localshell as a complete real-world
 # example.
 
@@ -17,40 +17,34 @@
 # primary group of the current user, and the additional groups of the current
 # user.
 
-# every specific entry needs stuff in 3 variables
-# shells, priorities, allowed_cmds
-# the shells variable has two special values: 'LOCALSHELL' and 'DEFAULTSHELL'.
-# if 'LOCALSHELL' is specified, the user's preferred_shell_file is checked to
-# see what shell they would want to use for being let in.
-# if 'DEFAULTSHELL' is specified, this shell is enforced on the user.
-shells=":infrastructure,LOCALSHELL"
-# priorities takes a signed 32-bit integer
-# higher priorities take precedence
-priorities=":infrastructure,10000"
-# allowed_cmds takes a regular expression to see what command arguments are allowed.
-allowed_cmds=":infrastructure,"
+# every specific entry needs stuff in 3 parts
+# so the full format is:
+# entry="[USER]:[GROUP],PRIORITY,SHELL,ALLOWED_CMDS"
+# priority,shell,allowed_cmds
+# - priorities takes a signed 32-bit integer. higher priorities take precedence
+# - the shells variable has two special cases: If 'LOCALSHELL' is specified,
+# the user's preferred_shell_file is checked to see what shell they would want
+# to use for being let in. If 'DEFAULTSHELL' is specified, this shell is
+# enforced on the user.
+# - allowed_cmds takes a regular expression to see what command arguments are
+# allowed.
+entry=":infrastructure,10000,LOCALSHELL,"
 
 # SVN and CVS require that the user has a real shell
 # but we still want to limit what commands they can run.
 # so this is how you go about it.
 # note that '^svn' is not safe as they could find some other command starting with 'svn' to abuse.
-shells=":cvs,/bin/bash"
-priorities=":cvs,5000"
-allowed_cmds=":cvs,^cvs server$|^svn\>|^svnserve\>"
+entry=":cvs,5000,/bin/bash,^cvs server$|^svn\>|^svnserve\>"
 
 # if you wanted to allow everybody in
 # you could use this
-#shells=",LOCALSHELL"
-#priorities=",0"
-#allowed_cmds=","
+#entry=":,-2147483647,LOCALSHELL,"
 
 # this is the default entry
 # they are implicitly included if deleted here.
 # it enforces that for any case that doesn't match above (lowest priority)
 # The user gets the default shell, and is allowed to specify arguments.
-shells=":,DEFAULTSHELL"
-priorities=":,-2147483647"
-allowed_cmds=":,"
+entry=":,-2147483647,DEFAULTSHELL,"
 
 # these are defaults for the system
 # they are implicitly included if deleted here.

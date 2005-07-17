@@ -1,4 +1,6 @@
 *.o
+*.s
+*.ii
 *~
 .deps
 Makefile
@@ -12,7 +14,7 @@ configure
 depcomp
 install-sh
 missing
-README
-stamp-h1
 config.h
+stamp-h1
 config.cache
+README

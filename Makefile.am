@@ -10,9 +10,4 @@
 
 EXTRA_DIST = reconf configure
 SUBDIRS = m4 src doc
-
-maintainer-clean-custom:
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test "$$subdir" = . || (cd $$subdir && rm -rf `cat .cvsignore`); \
-	done
-	rm -rf `cat .cvsignore`
+MAINTAINERCLEANFILES = `cat .cvsignore`

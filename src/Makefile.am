@@ -10,3 +10,4 @@
 
 bin_PROGRAMS = localshell
 localshell_SOURCES  = localshell.cxx config.cxx validate.cxx
+MAINTAINERCLEANFILES = `cat .cvsignore`

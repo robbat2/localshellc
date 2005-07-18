@@ -1,11 +1,7 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/config.hh,v 1.3 2005/07/18 01:03:50 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/config.hh,v 1.4 2005/07/18 01:55:30 robbat2 Exp $ */
 #ifndef _CONFIG_HH_
 #define _CONFIG_HH_
 #include "structures.hh"
-
-#ifndef CONFIG_FILE
-#define CONFIG_FILE "/etc/localshell.conf"
-#endif
 
 int load_config( const char *cfg_filename, configuration &conf);
 int parse_config(fstream &fs, configuration &conf);

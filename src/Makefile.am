@@ -8,6 +8,13 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+BF = built-configfile.h
+localshell.cxx: $(BF)
+$(BF):
+	echo "const char* CONFIGFILE = \"$(sysconfdir)/localshell.conf\";" >$@
+
 bin_PROGRAMS = localshell
-localshell_SOURCES  = localshell.cxx config.cxx common.cxx
+localshell_SOURCES  = localshell.cxx config.cxx common.cxx built-configfile.h
 MAINTAINERCLEANFILES = `cat .cvsignore`
+BUILT_SOURCES = $(BF)
+CLEANFILES = $(BF)

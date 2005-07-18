@@ -1,9 +1,10 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/localshell.cxx,v 1.3 2005/07/18 01:03:50 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/localshell.cxx,v 1.4 2005/07/18 01:55:30 robbat2 Exp $ */
 
 #include <stdio.h>
 #include "structures.hh"
 #include "config.hh"
 #include "common.hh"
+#include "built-configfile.h"
 #include <regex.h>
 #include <errno.h>
 
@@ -14,7 +15,7 @@ using namespace std;
 int main(int argc, char** argv) {
 	configuration conf;
 	//printf("argc: %d\n",argc);
-	if(0 == load_config(CONFIG_FILE,conf)) {
+	if(0 == load_config(CONFIGFILE,conf)) {
 		const int BUFFERSIZE = 4096;	
 		char argstring[BUFFERSIZE];
 		int space = BUFFERSIZE;
@@ -43,7 +44,7 @@ int main(int argc, char** argv) {
 			regfree(&re);
 			// 3. run execv
 			if(0 == status) {
-				//printf("%d %d:%d - %s - %s\n", c->priority, c->uid, c->gid, c->shell, c->allowed_cmds);
+				fprintf(stderr,"%d %d:%d - %s - %s\n", c->priority, c->uid, c->gid, c->shell, c->allowed_cmds);
 				memset(argstring,'\0',4);
 				if(argc == 1) {
 					argstring[0] = '-';

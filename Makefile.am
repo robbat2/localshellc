@@ -8,6 +8,13 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-EXTRA_DIST = reconf configure
-SUBDIRS = m4 src doc
+SUBDIRS = src doc
 MAINTAINERCLEANFILES = `cat .cvsignore`
+
+dist_DOCS = INSTALL AUTHORS COPYING ChangeLog THANKS
+# built from README.in
+built_DOCS = README
+DOCS = $(dist_DOCS) $(built_DOCS)
+
+noinst_DATA = $(built_DOCS)
+EXTRA_DIST = configure reconf $(dist_DOCS)

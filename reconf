@@ -11,7 +11,7 @@
 #!/bin/sh
 rm -f config.cache
 echo "- aclocal."
-aclocal -I m4
+aclocal
 echo "- autoconf."
 autoconf
 echo "- autoheader."

@@ -19,3 +19,4 @@ stamp-h1
 config.cache
 README
 localshell
+built-configfile.h

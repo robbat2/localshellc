@@ -1,9 +1,10 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/common.hh,v 1.2 2005/07/18 01:03:50 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/common.hh,v 1.3 2005/07/18 20:57:21 robbat2 Exp $ */
 #ifndef _COMMON_HH_
 #define _COMMON_HH_
 
 #include "structures.hh"
 
+// This is borrowed from the STL headers
 inline size_t hash_string(const char* __s) {
   unsigned long __h = 0;
   for ( ; *__s; ++__s)

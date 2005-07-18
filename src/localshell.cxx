@@ -1,4 +1,4 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/localshell.cxx,v 1.4 2005/07/18 01:55:30 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/localshell.cxx,v 1.5 2005/07/18 20:57:21 robbat2 Exp $ */
 
 #include <stdio.h>
 #include "structures.hh"
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
 			regfree(&re);
 			// 3. run execv
 			if(0 == status) {
-				fprintf(stderr,"%d %d:%d - %s - %s\n", c->priority, c->uid, c->gid, c->shell, c->allowed_cmds);
+				//fprintf(stderr,"%d %d:%d - %s - %s\n", c->priority, c->uid, c->gid, c->shell, c->allowed_cmds);
 				memset(argstring,'\0',4);
 				if(argc == 1) {
 					argstring[0] = '-';
@@ -59,11 +59,12 @@ int main(int argc, char** argv) {
 				}
 				strncat(argstring,c->shell,BUFFERSIZE-1);
 				argv[0] = argstring;
+				// probably won't return from this
 				execv(c->shell,argv);
 				int err = errno;
 				fprintf(stderr,"%s: failed to launch shell (errno:%d)\n",err);
 			}
 		}
 	}
-	return 1;
+	return 1; // only reach here in case of error
 }

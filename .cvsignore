@@ -19,3 +19,5 @@ stamp-h1
 config.cache
 README
 aclocal.m4
+*gz
+*bz2

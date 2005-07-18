@@ -15,9 +15,6 @@ dist_docs = INSTALL AUTHORS COPYING ChangeLog THANKS
 # built from README.in
 built_docs = README
 docs = $(dist_docs) $(built_docs)
-EXTRA_DIST = $(docs)
+EXTRA_DIST = $(docs) configure reconf
 docsdir = $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/
 docs_DATA = $(docs)
-
-#noinst_DATA = $(built_DOCS)
-EXTRA_DIST = configure reconf $(dist_DOCS)

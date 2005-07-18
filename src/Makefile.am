@@ -14,7 +14,9 @@ $(BF):
 	echo "const char* CONFIGFILE = \"$(sysconfdir)/localshell.conf\";" >$@
 
 bin_PROGRAMS = localshell
-localshell_SOURCES  = localshell.cxx config.cxx common.cxx built-configfile.h
-MAINTAINERCLEANFILES = `cat .cvsignore`
+localshell_SOURCES  = localshell.cxx config.cxx common.cxx common.hh config.hh structures.hh
+MAINTAINERCLEANFILES = `cat .cvsignore` $(BF)
 BUILT_SOURCES = $(BF)
 CLEANFILES = $(BF)
+DISTCLEANFILES = $(BF)
+nodist_localshell_SOURCES = built-configfile.h

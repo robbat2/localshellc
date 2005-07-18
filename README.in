@@ -5,4 +5,4 @@ For documentation, please see the files in the doc subdirectory.
 For building and installation instructions please see the INSTALL file.
 
 This instance of localshell, written in C, is based on an earlier prototype
-written in Perl, by myself and Patrick Lougheed <pat@tfsb.org>.
+written in Perl, by myself and Patrick Lougheed <pat AT tfsb.org>.

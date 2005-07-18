@@ -1,4 +1,4 @@
-# Copyright (C) 2005 Robin Hugh Johnson <robbat2@orbis-terrarum.net>
+# Copyright (C) 2005 Robin Hugh Johnson <robbat2 AT orbis-terrarum.net>
 #  
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without 
@@ -10,7 +10,7 @@
 
 AC_INIT([localshell],
         [1.1],
-        [Robin H. Johnson robbat2@gentoo.org],
+        [Robin H. Johnson robbat2 AT gentoo.org],
         [localshell])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/structures.hh])

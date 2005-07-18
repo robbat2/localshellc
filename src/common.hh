@@ -1,6 +1,8 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/common.hh,v 1.1 2005/07/17 19:57:56 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/common.hh,v 1.2 2005/07/18 01:03:50 robbat2 Exp $ */
 #ifndef _COMMON_HH_
 #define _COMMON_HH_
+
+#include "structures.hh"
 
 inline size_t hash_string(const char* __s) {
   unsigned long __h = 0;
@@ -9,11 +11,12 @@ inline size_t hash_string(const char* __s) {
   return __h;
 }
 
-inline *cfg_list create_cfg_list(char *value, uid_t uid, gid_t gid) {
-	cfg_list *cfg = new cfg_list;
-	cfg->value = strdup(value);
-	cfg->uid = uid;
-	cfg->gid = gid;
-	return cfg;
-}
+gid_t resolve_gid(char *group);
+uid_t resolve_uid(char *user);
+bool match_user(uid_t uid, gid_t gid);
+char* get_preferred_shell(char* filename);
+char* get_preferred_shell(configuration &conf);
+char* get_default_shell(configuration &conf);
+bool test_shell(char* shell);
+
 #endif //_COMMON_HH_

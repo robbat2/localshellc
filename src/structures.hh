@@ -1,4 +1,4 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/structures.hh,v 1.2 2005/07/17 19:57:56 robbat2 Exp $ */
+/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/structures.hh,v 1.3 2005/07/18 01:03:50 robbat2 Exp $ */
 #ifndef _STRUCTURES_HH_
 #define _STRUCTURES_HH_
 
@@ -38,11 +38,14 @@ struct cfg_list {
 	gid_t gid; 
 };
 
+typedef map<int,cfg_entry*> cfg_entries_map;
+typedef vector<cfg_list*> cfg_list_vector;
+
 struct configuration {
-	map<int,*cfg_entry> cfg_entries;
-	vector<*cfg_list> preferred_shell_files;
-	vector<*cfg_list> preferred_shells;
-	vector<*cfg_list> default_shells;
+	cfg_entries_map cfg_entries;
+	cfg_list_vector preferred_shell_files;
+	cfg_list_vector preferred_shells;
+	cfg_list_vector default_shells;
 };
 
 #endif //_STRUCTURES_HH_

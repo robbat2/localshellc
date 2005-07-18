@@ -1,5 +1,5 @@
 # localshell.conf
-# $Header: /code/convert/cvsroot/infrastructure/localshellc/src/Attic/localshell.conf.example,v 1.2 2005/07/17 19:57:56 robbat2 Exp $
+# $Header: /code/convert/cvsroot/infrastructure/localshellc/src/Attic/localshell.conf.example,v 1.3 2005/07/18 01:03:50 robbat2 Exp $
 # This file describes the behavior of localshell as a complete real-world
 # example.
 
@@ -41,10 +41,12 @@ entry=":cvs,5000,/bin/bash,^cvs server$|^svn\>|^svnserve\>"
 #entry=":,-2147483647,LOCALSHELL,"
 
 # this is the default entry
-# they are implicitly included if deleted here.
+# it should always exist!
 # it enforces that for any case that doesn't match above (lowest priority)
 # The user gets the default shell, and is allowed to specify arguments.
 entry=":,-2147483647,DEFAULTSHELL,"
+# force secure alternative
+#entry=":,-2147483647,/bin/false,^$"
 
 # these are defaults for the system
 # they are implicitly included if deleted here.

@@ -9,5 +9,5 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 bin_PROGRAMS = localshell
-localshell_SOURCES  = localshell.cxx config.cxx validate.cxx
+localshell_SOURCES  = localshell.cxx config.cxx common.cxx
 MAINTAINERCLEANFILES = `cat .cvsignore`

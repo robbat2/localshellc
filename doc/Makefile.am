@@ -8,3 +8,7 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+dist_docs = localshell.conf.complex localshell.conf.simple
+EXTRA_DIST = $(dist_docs)
+docsdir = $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/
+docs_DATA = $(dist_docs)

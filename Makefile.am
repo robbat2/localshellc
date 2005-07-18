@@ -11,10 +11,13 @@
 SUBDIRS = src doc
 MAINTAINERCLEANFILES = `cat .cvsignore`
 
-dist_DOCS = INSTALL AUTHORS COPYING ChangeLog THANKS
+dist_docs = INSTALL AUTHORS COPYING ChangeLog THANKS
 # built from README.in
-built_DOCS = README
-DOCS = $(dist_DOCS) $(built_DOCS)
+built_docs = README
+docs = $(dist_docs) $(built_docs)
+EXTRA_DIST = $(docs)
+docsdir = $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/
+docs_DATA = $(docs)
 
-noinst_DATA = $(built_DOCS)
+#noinst_DATA = $(built_DOCS)
 EXTRA_DIST = configure reconf $(dist_DOCS)

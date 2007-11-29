@@ -19,6 +19,7 @@ AM_INIT_AUTOMAKE([dist-bzip2])
 
 AC_PROG_CXX
 AC_PROG_CC
+# These come from the autotoolset package
 LF_CONFIGURE_CC
 LF_CONFIGURE_CXX
 LF_HOST_TYPE

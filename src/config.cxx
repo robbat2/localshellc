@@ -75,7 +75,9 @@ int parse_config(fstream &fs, configuration &conf) {
 	
 		//printf("Name:'%s' UID:%d GID:%d Value:'%s'\n",argname,uid,gid,argvalue);
 		if(match_user(uid,gid)) {
-			parse_config_argument(argname,uid,gid,argvalue,conf);
+			if(parse_config_argument(argname,uid,gid,argvalue,conf)) {
+				fprintf(stderr, "Bad config %s=%s %d:%d\n", argname, argvalue, uid, gid);
+			}
 		}
 	}
 	return 0;

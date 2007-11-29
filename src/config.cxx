@@ -124,6 +124,13 @@ int parse_config_argument__entry(uid_t uid, gid_t gid, char *argvalue, configura
 		return EINVAL; 
 	}
 	allowed_cmds[0] = '\0'; allowed_cmds++;
+	
+	if(strcmp("DEFAULTSHELL", shell) && 
+			strcmp("LOCALSHELL", shell) && 
+			!test_shell(shell)) {
+		fprintf(stderr,"%s: invalid shell:%s\n", PACKAGE, shell);
+		return EINVAL; 
+	}
 
 	entry->priority = priority;
 	entry->shell = strdup(shell);

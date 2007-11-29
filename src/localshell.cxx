@@ -36,6 +36,8 @@ int main(int argc, char** argv) {
 			} else if(0 == strcmp(c->shell,"DEFAULTSHELL")) {
 				c->shell = get_default_shell(conf);
 			}
+			// We would have printed a warning
+			if(c->shell == NULL) continue;
 			// 2. check allowed_commands is good
 			int status;
 			regex_t re;

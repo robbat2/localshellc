@@ -122,6 +122,9 @@ char* get_preferred_shell(configuration &conf) {
 			shell = NULL;
 		}
 	}
+	if(NULL == shell) {
+		fprintf(stderr,"%s: failed to find a preferred shell\n",PACKAGE);
+	}
 	return shell;
 }
 char* get_default_shell(configuration &conf) {
@@ -132,6 +135,9 @@ char* get_default_shell(configuration &conf) {
 		if(NULL != shell && !test_shell(shell)) {
 			shell = NULL;
 		}
+	}
+	if(NULL == shell) {
+		fprintf(stderr,"%s: failed to find a default shell\n",PACKAGE);
 	}
 	return shell;
 }

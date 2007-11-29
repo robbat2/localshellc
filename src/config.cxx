@@ -26,6 +26,11 @@ int load_config( const char *cfg_filename, configuration &conf) {
 int parse_config(fstream &fs, configuration &conf) {
 	const int BUFFERSIZE = 2048; // compiles away
 	int len = BUFFERSIZE;
+	/* Load defaults */
+	parse_config_argument("preferred_shell_file", UID_ANY, GID_ANY, "~/.localshellrc", conf);
+	parse_config_argument("default_preferred_shell", UID_ANY, GID_ANY, "/bin/bash", conf);
+	parse_config_argument("default_shell", UID_ANY, GID_ANY, "/bin/false", conf);
+	/* Now check the config */
 	while(fs.good()) {
 		char line[BUFFERSIZE];
 		memset(line,'\0',len); // set to NULL for safety

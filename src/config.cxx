@@ -48,17 +48,17 @@ int parse_config(fstream &fs, configuration &conf) {
 		if(NULL == equal_pos) continue;
 		// now the :
 		char* colon_pos = strstr(equal_pos,":");
-		if(NULL == colon_pos) continue;
 		// now the ,
-		char* comma_pos = strstr(colon_pos,",");
-		if(NULL == comma_pos) continue;
+		char* comma_pos = strstr(equal_pos,",");
+		if(NULL == comma_pos || ((colon_pos != NULL) && (comma_pos < colon_pos))) continue;
+		if(NULL == colon_pos) { colon_pos = comma_pos; }
 		// now the trailing "
 		char* trailing_quote_pos = strstr(comma_pos,"\"");
 		if(NULL == trailing_quote_pos) continue;
 
 		char *argname = line;
 		char *arguid = equal_pos+2;
-		char *arggid = colon_pos+1;
+		char *arggid = colon_pos == comma_pos ? colon_pos : colon_pos+1;
 		char *argvalue = comma_pos+1;
 		// this is an evil trick, so we don't need any seperate buffers or copying
 		// basically the single buffer contains everything...

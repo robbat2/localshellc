@@ -89,7 +89,7 @@ gid_t resolve_gid(char *groupname) {
 	return gid;
 }
 
-char* get_preferred_shell(char* filename) {
+char* get_preferred_shell_from_file(char* filename) {
 	const int BUFFERSIZE = 2048; // compiles away
 	char line[BUFFERSIZE];
 	memset(line,'\0',BUFFERSIZE); // set to NULL for safety
@@ -109,7 +109,7 @@ char* get_preferred_shell(char* filename) {
 char* get_preferred_shell(configuration &conf) {
 	char* shell = NULL;
 	for(cfg_list_vector::iterator it = conf.preferred_shell_files.begin(); it != conf.preferred_shell_files.end() && shell == NULL; it++) {
-		shell = get_preferred_shell((*it)->value);
+		shell = get_preferred_shell_from_file((*it)->value);
 		// if no access, block this shell
 		if(NULL != shell && !test_shell(shell)) {
 			shell = NULL;

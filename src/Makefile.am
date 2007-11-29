@@ -10,7 +10,7 @@
 
 BF = built-configfile.h
 localshell.cxx: $(BF)
-$(BF):
+$(BF): Makefile
 	echo "const char* CONFIGFILE = \"$(sysconfdir)/localshell.conf\";" >$@
 
 bin_PROGRAMS = localshell

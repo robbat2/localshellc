@@ -22,14 +22,23 @@ int load_config( const char *cfg_filename, configuration &conf) {
 	fs.close(); // very important for a shell-spawner
 	return ret;
 }
+				
+void load_defaults(configuration &conf) {
+#define LOAD_DEFAULT(setting, var) \
+	if(parse_config_argument(setting, UID_ANY, GID_ANY, var, conf)) { \
+		fprintf(stderr, "Bad default config %s=%s %d:%d\n", setting, var, UID_ANY, GID_ANY); \
+	}
+	LOAD_DEFAULT("preferred_shell_file", "~/.localshellrc");
+	LOAD_DEFAULT("default_preferred_shell", "/bin/bash");
+	LOAD_DEFAULT("default_shell", "/bin/false");
+#undef LOAD_DEFAULT
+}
 
 int parse_config(fstream &fs, configuration &conf) {
 	const int BUFFERSIZE = 2048; // compiles away
 	int len = BUFFERSIZE;
 	/* Load defaults */
-	parse_config_argument("preferred_shell_file", UID_ANY, GID_ANY, "~/.localshellrc", conf);
-	parse_config_argument("default_preferred_shell", UID_ANY, GID_ANY, "/bin/bash", conf);
-	parse_config_argument("default_shell", UID_ANY, GID_ANY, "/bin/false", conf);
+	load_defaults(conf);
 	/* Now check the config */
 	while(fs.good()) {
 		char line[BUFFERSIZE];

@@ -83,29 +83,25 @@ int parse_config(fstream &fs, configuration &conf) {
 
 int parse_config_argument(char *argname, uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
 	int ret = EINVAL;
+	int match = 0;
 	//printf("Adding %s:\n",argname);
-	switch(hash_string(argname)) {
-		case 80466: 
-			/* entry */ 
-			ret = parse_config_argument__entry(uid,gid,argvalue,conf);
-			break;
-		case 1879921805:
-			/* preferred_shell_file */ 
-			ret = parse_config_argument__preferred_shell_file(uid,gid,argvalue,conf);
-			break;
-		case -1144786314:
-			/* default_preferred_shell */ 
-			ret = parse_config_argument__default_preferred_shell(uid,gid,argvalue,conf);
-			break;
-		case 522816976:
-			/* default_shell */ 
-			ret = parse_config_argument__default_shell(uid,gid,argvalue,conf);
-			break;
-		default:
-			/* all other cases */
-			fprintf(stderr,"%s: bad configuration argument:'%s'\n",PACKAGE,argname);
-			break;
+#define PARSE(type) \
+	if(match == 0 && 0 == strcmp(argname, #type)) { \
+		/*fprintf(stderr, "Processing %s=%s %d:%d\n", #type, argvalue, uid, gid);*/ \
+		ret = parse_config_argument__##type (uid,gid,argvalue,conf); \
+		match = 1; \
 	}
+	PARSE(entry);
+	PARSE(preferred_shell_file);
+	PARSE(default_preferred_shell);
+	PARSE(default_shell);
+#undef PARSE
+
+	if(match == 0) {
+		// all other cases 
+		return EINVAL;
+	}
+	
 	return ret;
 }
 

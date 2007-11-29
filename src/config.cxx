@@ -139,12 +139,15 @@ int parse_config_argument__entry(uid_t uid, gid_t gid, char *argvalue, configura
 }
 int parse_config_argument__preferred_shell_file(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
 	conf.preferred_shell_files.push_back(create_cfg_list(argvalue,uid,gid));
+	return 0;
 }
 int parse_config_argument__default_preferred_shell(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
 	conf.preferred_shells.push_back(create_cfg_list(argvalue,uid,gid));
+	return 0;
 }
 int parse_config_argument__default_shell(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
 	conf.default_shells.push_back(create_cfg_list(argvalue,uid,gid));
+	return 0;
 }
 cfg_list* create_cfg_list(char *value, uid_t uid, gid_t gid) {
 	cfg_list *cfg = new cfg_list;

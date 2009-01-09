@@ -1,4 +1,3 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/common.hh,v 1.3 2005/07/18 20:57:21 robbat2 Exp $ */
 #ifndef _COMMON_HH_
 #define _COMMON_HH_
 

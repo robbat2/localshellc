@@ -1,4 +1,3 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/structures.hh,v 1.3 2005/07/18 01:03:50 robbat2 Exp $ */
 #ifndef _STRUCTURES_HH_
 #define _STRUCTURES_HH_
 

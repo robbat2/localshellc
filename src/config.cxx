@@ -1,5 +1,3 @@
-/* $Header: /code/convert/cvsroot/infrastructure/localshellc/src/config.cxx,v 1.3 2005/07/18 01:03:50 robbat2 Exp $ */
-
 #include <stdio.h>
 #include <errno.h>
 #include "structures.hh"

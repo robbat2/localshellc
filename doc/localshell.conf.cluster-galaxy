@@ -1,5 +1,4 @@
 # localshell.conf
-# $Header: /code/convert/cvsroot/infrastructure/localshellc/doc/localshell.conf.cluster-galaxy,v 1.1 2005/07/18 21:00:12 robbat2 Exp $
 # Used for securing a cluster system.
 # both the infrastructure (sysadmins) and cluster groups are allowed to access
 # the machines. Everybody else gets /bin/false.

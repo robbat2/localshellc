@@ -5,6 +5,7 @@
 #include "structures.hh"
 #include "common.hh"
 #include <fstream>
+#include <cstring>
 using namespace std;
 
 bool match_user(uid_t uid, gid_t gid) {

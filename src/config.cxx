@@ -10,6 +10,8 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <cstring>
+#include <cstdlib>
 using namespace std;
 
 int load_config( const char *cfg_filename, configuration &conf) {

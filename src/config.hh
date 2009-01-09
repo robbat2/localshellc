@@ -2,6 +2,7 @@
 #ifndef _CONFIG_HH_
 #define _CONFIG_HH_
 #include "structures.hh"
+#include <fstream>
 
 int load_config( const char *cfg_filename, configuration &conf);
 int parse_config(fstream &fs, configuration &conf);

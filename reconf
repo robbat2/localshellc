@@ -1,3 +1,4 @@
+#!/bin/sh
 # Copyright (C) 2005 Robin Hugh Johnson <robbat2 AT orbis-terrarum.net>
 #  
 # This file is free software; as a special exception the author gives
@@ -8,7 +9,8 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-#!/bin/sh
+echo "If you see warnings about LF_* macros from configure,"
+echo "you need to install autotoolset on your system."
 rm -f config.cache
 echo "- aclocal."
 aclocal

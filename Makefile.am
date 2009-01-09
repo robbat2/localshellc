@@ -11,7 +11,7 @@
 SUBDIRS = src doc
 MAINTAINERCLEANFILES = `cat .cvsignore`
 
-dist_docs = INSTALL AUTHORS COPYING ChangeLog THANKS
+dist_docs = INSTALL AUTHORS COPYING THANKS
 # built from README.in
 built_docs = README
 docs = $(dist_docs) $(built_docs)

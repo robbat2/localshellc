@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
 					//printf("argv[%i]:'%s'\n",i,argv[i]);
 					newargv[i-start+2] = argv[i];
 				}
-				newargv[1] = "-c";
+				newargv[1] = (char*)"-c";
 				argv = newargv;
 			}
 			strncat(argstring,c->shell,BUFFERSIZE-1);

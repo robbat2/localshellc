@@ -92,7 +92,7 @@ int parse_config(fstream &fs, configuration &conf) {
 	return 0;
 }
 
-int parse_config_argument(char *argname, uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+int parse_config_argument(const char *argname, uid_t uid, gid_t gid, const char *argvalue, configuration &conf) {
 	int ret = EINVAL;
 	int match = 0;
 	//printf("Adding %s:\n",argname);
@@ -116,7 +116,7 @@ int parse_config_argument(char *argname, uid_t uid, gid_t gid, char *argvalue, c
 	return ret;
 }
 
-int parse_config_argument__entry(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+int parse_config_argument__entry(uid_t uid, gid_t gid, const char *argvalue, configuration &conf) {
 	cfg_entry *entry = new cfg_entry;
 	// PRIORITY,SHELL,ALLOWED
 	long priority = atol(argvalue);
@@ -151,19 +151,19 @@ int parse_config_argument__entry(uid_t uid, gid_t gid, char *argvalue, configura
 	//printf("%d %d:%d - %s - %s\n", entry->priority, entry->uid, entry->gid, entry->shell, entry->allowed_cmds);
 	return 0;
 }
-int parse_config_argument__preferred_shell_file(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+int parse_config_argument__preferred_shell_file(uid_t uid, gid_t gid, const char *argvalue, configuration &conf) {
 	conf.preferred_shell_files.push_back(create_cfg_list(argvalue,uid,gid));
 	return 0;
 }
-int parse_config_argument__default_preferred_shell(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+int parse_config_argument__default_preferred_shell(uid_t uid, gid_t gid, const char *argvalue, configuration &conf) {
 	conf.preferred_shells.push_back(create_cfg_list(argvalue,uid,gid));
 	return 0;
 }
-int parse_config_argument__default_shell(uid_t uid, gid_t gid, char *argvalue, configuration &conf) {
+int parse_config_argument__default_shell(uid_t uid, gid_t gid, const char *argvalue, configuration &conf) {
 	conf.default_shells.push_back(create_cfg_list(argvalue,uid,gid));
 	return 0;
 }
-cfg_list* create_cfg_list(char *value, uid_t uid, gid_t gid) {
+cfg_list* create_cfg_list(const char *value, uid_t uid, gid_t gid) {
 	cfg_list *cfg = new cfg_list;
 	cfg->value = strdup(value);
 	cfg->uid = uid;

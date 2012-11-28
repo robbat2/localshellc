@@ -21,9 +21,7 @@ check-git-repository:
 	git diff --quiet || { echo 'STOP, you have uncommitted changes in the working directory' ; false ; }
 	git diff --cached --quiet || { echo 'STOP, you have uncommitted changes in the index' ; false ; }
 
-ChangeLog: check-git-repository .git/index
+ChangeLog: .git/index
 	    git log >$@
 
-dist: $(EXTRA_DIST)
-
-.PHONY: dist
+dist: check-git-repository $(EXTRA_DIST)

@@ -9,11 +9,9 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 SUBDIRS = src doc
-MAINTAINERCLEANFILES = `cat .cvsignore`
+MAINTAINERCLEANFILES = `cat .cvsignore .gitignore`
 
-dist_docs = INSTALL AUTHORS COPYING THANKS
-# built from README.in
-built_docs = README
+dist_docs = INSTALL AUTHORS COPYING README
 docs = $(dist_docs) $(built_docs)
 EXTRA_DIST = $(docs) configure reconf
 docsdir = $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/

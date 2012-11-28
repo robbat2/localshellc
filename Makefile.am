@@ -9,7 +9,7 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 SUBDIRS = src doc
-MAINTAINERCLEANFILES = `cat .cvsignore .gitignore`
+MAINTAINERCLEANFILES = `cat .cvsignore .gitignore` ChangeLog
 
 dist_docs = INSTALL AUTHORS COPYING README ChangeLog
 docs = $(dist_docs) $(built_docs)
@@ -21,7 +21,14 @@ check-git-repository:
 	git diff --quiet || { echo 'STOP, you have uncommitted changes in the working directory' ; false ; }
 	git diff --cached --quiet || { echo 'STOP, you have uncommitted changes in the index' ; false ; }
 
-ChangeLog: .git/index
-	    git log >$@
+ChangeLog:
+	git log >$@
+ChangeLog.force:
+	git log >ChangeLog
 
-dist: check-git-repository $(EXTRA_DIST)
+dist: check-git-repository ChangeLog.force $(EXTRA_DIST)
+
+# xz not supported on IRIX
+AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip
+.PHONY: ChangeLog.force
+.PRECIOUS: ChangeLog

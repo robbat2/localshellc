@@ -9,7 +9,7 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-rm -f config.cache ChangeLog
+rm -f config.cache
 echo "- aclocal."
 aclocal
 echo "- autoconf."

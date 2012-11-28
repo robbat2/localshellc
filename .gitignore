@@ -22,3 +22,5 @@ aclocal.m4
 *bz2
 config.h.in
 ChangeLog
+autom4te.cache/
+src/.deps/

@@ -17,7 +17,11 @@ EXTRA_DIST = $(docs) configure reconf
 docsdir = $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/
 docs_DATA = $(docs)
 
-ChangeLog:
+check-git-repository:
+	git diff --quiet || { echo 'STOP, you have uncommitted changes in the working directory' ; false ; }
+	git diff --cached --quiet || { echo 'STOP, you have uncommitted changes in the index' ; false ; }
+
+ChangeLog: check-git-repository .git/index
 	    git log >$@
 
 dist: $(EXTRA_DIST)

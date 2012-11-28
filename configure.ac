@@ -186,7 +186,6 @@ AC_CHECK_FUNCS([memset regcomp strdup strndup strstr])
 
 AC_CONFIG_FILES([
    Makefile
-   README
    doc/Makefile
    src/Makefile
 ])

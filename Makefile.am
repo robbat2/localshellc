@@ -21,3 +21,5 @@ ChangeLog:
 	    git log >$@
 
 dist: $(EXTRA_DIST)
+
+.PHONY: dist

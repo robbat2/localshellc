@@ -9,9 +9,7 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-echo "If you see warnings about LF_* macros from configure,"
-echo "you need to install autotoolset on your system."
-rm -f config.cache
+rm -f config.cache ChangeLog
 echo "- aclocal."
 aclocal
 echo "- autoconf."
@@ -19,6 +17,5 @@ autoconf
 echo "- autoheader."
 autoheader
 echo "- automake."
-cp README.in README
 automake -a
 exit

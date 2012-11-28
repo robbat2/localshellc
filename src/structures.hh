@@ -5,8 +5,8 @@
 #include <stddef.h>
 #include <pwd.h> //passwd
 #include <grp.h> //group
-//#include <sys/types.h> // for uid_t, gid_t
-//
+#include <sys/types.h> // for uid_t, gid_t
+
 #include <limits.h> // INT_MAX
 
 #include <map>

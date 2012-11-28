@@ -5,6 +5,7 @@
 #include "built-configfile.h"
 #include <regex.h>
 #include <errno.h>
+#include <unistd.h>
 
 #include <map>
 #include <vector>

@@ -4,6 +4,9 @@
 #include "common.hh"
 #include <fstream>
 #include <cstring>
+#include <unistd.h>
+#include <sys/types.h>
+
 using namespace std;
 
 bool match_user(uid_t uid, gid_t gid) {

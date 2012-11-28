@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
 			*/
 			execv(c->shell,argv);
 			int err = errno;
-			fprintf(stderr,"%s: failed to launch shell (errno:%d)\n",err);
+			fprintf(stderr, "%s: failed to launch shell (errno:%d)\n", PACKAGE, err);
 		}
 	}
 	return 1; // only reach here in case of error

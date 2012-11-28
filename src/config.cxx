@@ -121,13 +121,13 @@ int parse_config_argument__entry(uid_t uid, gid_t gid, const char *argvalue, con
 	// PRIORITY,SHELL,ALLOWED
 	long priority = atol(argvalue);
 
-	char* shell = strstr(argvalue,",");
+	char* shell = (char*)strstr(argvalue,",");
 	if(NULL == shell || '\0' == shell[1] ) { 
 		fprintf(stderr,"%s: badly formatted entry (shell):%s\n",PACKAGE,argvalue); 
 		return EINVAL; 
 	}
 	shell[0] = '\0'; shell++;
-	char* allowed_cmds = strstr(shell,",");
+	char* allowed_cmds = (char*)strstr(shell,",");
 	if(NULL == allowed_cmds) {
 		fprintf(stderr,"%s: badly formatted entry (allowed_cmds):%s\n",PACKAGE,shell); 
 		return EINVAL; 

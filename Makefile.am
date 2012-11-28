@@ -11,8 +11,13 @@
 SUBDIRS = src doc
 MAINTAINERCLEANFILES = `cat .cvsignore .gitignore`
 
-dist_docs = INSTALL AUTHORS COPYING README
+dist_docs = INSTALL AUTHORS COPYING README ChangeLog
 docs = $(dist_docs) $(built_docs)
 EXTRA_DIST = $(docs) configure reconf
 docsdir = $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/
 docs_DATA = $(docs)
+
+ChangeLog:
+	    git log >$@
+
+dist: $(EXTRA_DIST)

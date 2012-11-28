@@ -22,3 +22,4 @@ aclocal.m4
 *gz
 *bz2
 config.h.in
+ChangeLog

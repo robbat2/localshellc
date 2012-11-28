@@ -9,7 +9,7 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 AC_INIT([localshell],
-        [1.3.2],
+        [1.3.3],
         [Robin H. Johnson robbat2 AT gentoo.org],
         [localshell])
 AC_CONFIG_AUX_DIR(config)
